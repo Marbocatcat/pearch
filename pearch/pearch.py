@@ -1,7 +1,7 @@
 #!bin/env python3
+import argparse
 from pathlib import Path
 from colorama import init, Fore, Back, Style
-import argparse
 
 init(autoreset=True)
 
@@ -11,26 +11,31 @@ init(autoreset=True)
 # Add a search and replace feature.
 
 # TODO: ADD A try:except
+# TODO: ADD line numbers as a argument option.
 
+def parsed():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--file', required=True)
+    parser.add_argument('--pattern')
+    args = parser.parse_args()
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--file', required=True)
-parser.add_argument('--pattern')
-args = parser.parse_args()
+    return args.file, args.pattern
 
-def main(file, pattern):
+def pearch(file, pattern):
 
     with open(file, 'r') as reader:
         if bool(pattern):
             result = [line for line in reader.readlines() if pattern in line]
             print(result)
-
         else:
             for i, line in enumerate(reader): print(f'{i}: {line}', end="")
 
 
+def main():
+    file, pattern = parsed()
+    pearch(file, pattern)
+
+
+
 if __name__ == '__main__':
-    try:
-        main(args.file, args.pattern)
-    except IsADirectoryError as err:
-        print('Input has to be a file!')
+    main()
