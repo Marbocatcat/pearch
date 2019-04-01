@@ -53,6 +53,5 @@ def main():
     pearch(file, pattern, list_num, replace)
 
 
-
 if __name__ == '__main__':
     main()
