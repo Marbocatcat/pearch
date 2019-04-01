@@ -12,23 +12,29 @@ init(autoreset=True)
 # TODO: ADD line numbers as a argument option.
 # TODO: ADD highlight color to result.
 # TODO: Search and replace feature.
+    #TODO: ADD write feature to replace.
 
 def parsed():
     parser = argparse.ArgumentParser()
     parser.add_argument('--file', help='input file to be pearched',required=True)
     parser.add_argument('--pattern', help='search for a specific pattern')
     parser.add_argument('--l', help='add line numbers to result', action='store_true' )
+    parser.add_argument('--replace', help='replace pattern')
     args = parser.parse_args()
 
-    return args.file, args.pattern, args.l
+    return args.file, args.pattern, args.l, args.replace
 
-def pearch(file, pattern , list_num):
+def pearch(file, pattern , list_num, replace):
 
     with open(file, 'r') as reader:
 
         if bool(pattern):
-            result = [line for line in reader.readlines() if pattern in line]
-            print(result)
+            if bool(replace):
+                 result = [line.replace(pattern, replace) for line in reader.readlines() if pattern in line]
+                 print(result)
+            else:
+                result = [line for line in reader.readlines() if pattern in line]
+                print(result)
 
         if list_num == True:
             for i, line in enumerate(reader): print(f'{i}: {line}', end="")
@@ -37,8 +43,8 @@ def pearch(file, pattern , list_num):
 
 
 def main():
-    file, pattern, list_num = parsed()
-    pearch(file, pattern, list_num)
+    file, pattern, list_num, replace = parsed()
+    pearch(file, pattern, list_num, replace)
 
 
 
