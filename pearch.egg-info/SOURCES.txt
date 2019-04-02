@@ -1,0 +1,7 @@
+README.md
+setup.py
+pearch.egg-info/PKG-INFO
+pearch.egg-info/SOURCES.txt
+pearch.egg-info/dependency_links.txt
+pearch.egg-info/entry_points.txt
+pearch.egg-info/top_level.txt

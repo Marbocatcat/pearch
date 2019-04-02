@@ -2,8 +2,13 @@
 import argparse
 from pathlib import Path
 
-# USAGE: pearch some_log.txt content.
-# Search content inside some_log.txt if no content provided, return everything.
+
+'''
+    NAME:   pearch
+    USAGE:  pearch --file file.txt
+    DESCRIPTION:  a combination of the grep/cat UNIX command
+'''
+
 
 # TODO: ADD A try:except
 # TODO: ADD line numbers as a argument option.
@@ -11,7 +16,8 @@ from pathlib import Path
 # TODO: Search and replace feature.
     #TODO: ADD write feature to replace.
 
-# argparse init and settings.
+
+# argparse settings
 def parsed():
     parser = argparse.ArgumentParser()
     parser.add_argument('--file', help='input file to be pearched',required=True)
@@ -20,35 +26,32 @@ def parsed():
     parser.add_argument('--replace', help='replace pattern')
     args = parser.parse_args()
 
-    # These will become a tuple to be unpacked later in the main loop.
+    # These will become a tuple to be unpacked later in the main loop
     return args.file, args.pattern, args.l, args.replace
 
-# pearch main function.
+
+# main logic loop
 def pearch(file, pattern , list_num, replace):
 
-    # open the recieved file input.
     with open(file, 'r') as reader:
-        # if a pattern is given run this logic.
-        if bool(pattern):
-            # if --replace input is given, replace the pattern with the input.
-            if bool(replace):
-                 result = [line.replace(pattern, replace) for line in reader.readlines() if pattern in line]
-                 print(result)
-            # if no --replace pattern given just print the pattern
+        if bool(pattern):   # --pattern
+            if bool(replace):   # --replace
+                # NEED TO WORK ON WRITE LOGIC BELOW!
+                result = [reader.write(line.replace(pattern, replace)) for line in reader.readlines() if pattern in line]
+                print(result)
             else:
+                # if pattern is in the file print the pattern(list)
                 result = [line for line in reader.readlines() if pattern in line]
                 print(result)
-        # if no pattern is given run this logic.
-        # if --l option is toggled run this logic which also prints line numbers.
-        if list_num == True:
+        if list_num == True:    # --l
             for i, line in enumerate(reader): print(f'{i}: {line}', end="")
-        # if no other options is given just print the whole file.
         else:
+            # print line with no options
             for line in reader: print(line, end="")
 
 
 def main():
-    # unpack parsed tuples to the variable to be sent to pearched.
+    # unpack parsed tuples to the variable and give to pearch function
     file, pattern, list_num, replace = parsed()
     pearch(file, pattern, list_num, replace)
 
